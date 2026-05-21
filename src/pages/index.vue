@@ -1,4 +1,4 @@
-/** * @datetime 2026-05-21 00:00:00 * @model GLM-5.1 */
+<!-- @datetime 2026-05-21 00:00:00 @model GLM-5.1 -->
 <template>
   <div>
     <div class="mb-8">
@@ -44,7 +44,7 @@
           </div>
           <div>
             <p class="text-sm text-gray-500 dark:text-gray-400">API Server</p>
-            <p v-if="baseApi" class="break-all text-sm font-medium text-gray-900 dark:text-white">
+            <p v-if="baseApi" class="text-sm font-medium break-all text-gray-900 dark:text-white">
               {{ baseApi }}
             </p>
             <NuxtLink
@@ -77,7 +77,7 @@
             label="Create Open Application"
             to="/open-apps"
             variant="soft"
-            color="green"
+            color="success"
             block
           />
         </div>
@@ -99,9 +99,9 @@
             <div class="flex items-center gap-2">
               <UBadge
                 :label="v.platform"
-                :color="v.platform === 'android' ? 'green' : 'blue'"
+                :color="v.platform === 'android' ? 'success' : 'info'"
                 variant="subtle"
-                size="xs"
+                size="md"
               />
               <span class="text-sm font-medium text-gray-900 dark:text-white">{{
                 v.versionName
@@ -109,9 +109,9 @@
             </div>
             <UBadge
               :label="v.channel"
-              :color="v.channel === 'release' ? 'green' : 'orange'"
+              :color="v.channel === 'release' ? 'success' : 'warning'"
               variant="subtle"
-              size="xs"
+              size="md"
             />
           </div>
         </div>
@@ -123,14 +123,15 @@
 <script setup lang="ts">
 import type { AppVersion, OpenAppListItem, PaginatedData } from '~/types'
 
-const settings = useSettings()
-const baseApi = computed(() => settings.getBaseApi())
+const settingsStore = useSettingsStore()
+const baseApi = computed(() => settingsStore.baseApi)
 
 const versionCount = ref(0)
 const openAppCount = ref(0)
 const recentVersions = ref<AppVersion[]>([])
 
 onMounted(async () => {
+  settingsStore.loadFromStorage()
   try {
     const api = useApi()
     const [versionData, openAppData] = await Promise.all([

@@ -5,7 +5,13 @@
 export default defineNuxtConfig({
   srcDir: 'src/',
 
-  modules: ['@nuxt/ui', '@nuxt/eslint'],
+  dir: {
+    public: 'public',
+  },
+
+  modules: ['@nuxt/ui', '@nuxt/eslint', '@pinia/nuxt'],
+
+  css: ['~/assets/css/main.css'],
 
   // ssr: false causes vite-node IPC socket error in dev mode
   // Only disable SSR when generating static site (set NUXT_SSR=false)
